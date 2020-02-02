@@ -12,6 +12,11 @@
     android:layout_alignParentTop="true"
     android:layout_centerVertical="true"
     -->
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="#6FCEFA">
+
     <RelativeLayout
         android:id="@+id/nav_rl_0"
         android:layout_width="wrap_content"
@@ -60,12 +65,14 @@
             />
 
     </RelativeLayout>
-    <ImageView
+    <View
         android:id="@+id/header_iv_0"
         android:layout_width="4dp"
         android:layout_height="match_parent"
         android:layout_toEndOf="@+id/nav_rl_0"
-        android:background="#FF0000FF" />
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="3dp"
+        android:background="#FFFFFF" />
 
     <!-- This is the navigation tab in the middle -->
     <RelativeLayout
@@ -115,12 +122,14 @@
 
     </RelativeLayout>
 
-    <ImageView
+    <View
         android:id="@+id/header_iv_1"
         android:layout_width="4dp"
         android:layout_height="match_parent"
         android:layout_toEndOf="@+id/nav_rl_1"
-        android:background="#FF0000FF" />
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="3dp"
+        android:background="#FFFFFF" />
 
 
     <!-- This is the navigation tab at the far
@@ -194,4 +203,5 @@
         android:layout_marginTop="16dp"
         android:text="@string/my_profile"/>
 	-->
+    </LinearLayout>
 </LinearLayout>

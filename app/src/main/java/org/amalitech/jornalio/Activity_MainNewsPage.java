@@ -16,22 +16,54 @@ import androidx.core.content.ContextCompat;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import static java.security.AccessController.getContext;
 
 public class Activity_MainNewsPage extends Activity {
     Context ctx;
-    int i;
+
+    TextView news_hd,news_details;
+    RelativeLayout activity_outputer_id;
+    ImageView iv_img_cancel;
+    Button base_bttn_sv_1,base_bttn_sv_0;
+    EditText et_outputer;
+
     boolean doubleBackToExitPressedOnce=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__main_news_page);
         ctx = Activity_MainNewsPage.this;
+
+        news_hd = (TextView)findViewById(R.id.news_hd);
+        news_details = (TextView)findViewById(R.id.news_detail);
+        activity_outputer_id = (RelativeLayout) findViewById(R.id.activity_outputer_id);
+        iv_img_cancel = (ImageView)findViewById(R.id.iv_img_cancel);
+        base_bttn_sv_0 = (Button)findViewById(R.id.base_bttn_sv_0);
+        base_bttn_sv_1 = (Button)findViewById(R.id.base_bttn_sv_1);
+        et_outputer = (EditText)findViewById(R.id.et_outputer);
+
+        //setting text for the base buttons in the news viewer
+        base_bttn_sv_0.setText(getResources().getString(R.string.new_comment));
+        base_bttn_sv_1.setText(getResources().getString(R.string.view_comment));
+
+        //disabling the news viewer activity during loading of the mai news area;
+        activity_outputer_id.setVisibility(View.GONE);
+
+
         for (int x = 0; x < 3; x++) {
 
             //because we are in the Activity_MainNewsPage,
@@ -44,88 +76,120 @@ public class Activity_MainNewsPage extends Activity {
             }
 
         }
+        nav_TV(2, "outputer_tv_" , 0).setText("Developer Gets $72.8 Billion");
+        nav_TV(2, "outputer_tv_" , 1).setText("\n\nEarlier today, the 4 young"
+                + "Ghanaina Developers closed a deal with Sundai Pichai"
+                + " of Google for aldafjalkdjfak oi joaidjfo "
+                + "ijofaidjoaisdpfoia fyuao ojaodifh ayf9a8dfuoie"
+                + "ruqoieroqi hodosifjoa ijfaoidjfo aidfjoaijdpofi"
+                + "ajofdijaodfij oijsdoifjo josdijfoijdfajdlfk lask"
+                + "jdf ajdfjaoidaohdfiuahdifhqejrkajf;akdhfoahdfoaid "
+                + "Earlier today, the 4 young Ghanaina Developers closed "
+                + "a deal with Sundai Pichai of Google for aldafjalkdjfak "
+                + "oi joaidjfo");
 
-        for (i = 0; i < 3; i++) {
-            if (i == 1) {
-                nav_TV(3, "nav_tv_", i).setOnTouchListener(new View.OnTouchListener() {
+        base_bttn_sv_0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (et_outputer.getText().toString().trim().equals(null)){
+                    //Displays an error message
 
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
+                }
+                else
+                {
+                    nav_TV(2, "outputer_tv_" , 1).setText(nav_TV(2, "outputer_tv_" , 1).getText().toString()+"  "+
+                            "\n\n"+et_outputer.getText().toString().trim());
 
-                        switch (event.getActionMasked()) {
+                    //clearing the content of the comment section
+                    et_outputer.setText(null);
+                }
+            }
+        });
 
-                            case MotionEvent.ACTION_DOWN:
-                            case MotionEvent.ACTION_POINTER_DOWN: {
-                                //change color or background  ( new )
+        for(int i=0; i<3; i++) {
+            relative_rl(3, "nav_rl_", i).setOnTouchListener(new View.OnTouchListener() {
 
-                                break;
-                            }
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
 
-                            case MotionEvent.ACTION_UP:
-                            case MotionEvent.ACTION_POINTER_UP: {
+                    for(int j=0; j<3; j++) {
 
-                                //change color to default
+                        if(v.getId()==relative_rl(3, "nav_rl_", j).getId()) {
+                            switch (event.getActionMasked()){
 
-                                //do the action
-                                Intent i = new Intent(Activity_MainNewsPage.this, Activity_poster.class);
-                                startActivity(i);
+                                case MotionEvent.ACTION_DOWN:
+                                case MotionEvent.ACTION_POINTER_DOWN: {
+                                    //change color or background  ( new )
+                                    relative_rl(3, "nav_rl_", j).setBackgroundColor(Color.parseColor("#e8ffc4"));
+                                    break;
+                                }
+                                case MotionEvent.ACTION_UP:
+                                case MotionEvent.ACTION_POINTER_UP: {
 
-                                break;
-                            }
-                            case MotionEvent.ACTION_MOVE: {
+                                    switch(j) {
+                                        //change color to default
+                                        case 0:
+                                            //we are right here . . .dont do anything
+                                            break;
+                                        case 1:
+                                            //do the action
+                                            Intent activity_Post_intent = new Intent(Activity_MainNewsPage.this, Activity_poster.class );
+                                            startActivity(activity_Post_intent);
+                                            break;
+                                        case 2:
+                                            //this should take us to "My Profile"
+                                            Intent activity_Profile_intent = new Intent(Activity_MainNewsPage.this, Activity_Profile.class );
+                                            startActivity(activity_Profile_intent);
+                                            break;
+                                        default:
+                                            //DO NOTHING . . .
+                                            break;
 
-                                //finger moved : deactivate the whole action
+                                    }
+                                    break;
+                                }
+                                case MotionEvent.ACTION_MOVE:{
 
-                                break;
+                                    //finger moved : deactivate the whole action
+                                    relative_rl(3, "nav_rl_", j).setBackgroundColor(Color.parseColor("#6FCEFA"));
+                                    break;
+                                }
                             }
                         }
 
-                        return true;
                     }
-                });
+                    return true;
+                }
+            });//END OF onTouch
+        }//END OF for(){...}
 
+        news_hd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!activity_outputer_id.isShown()){
+                    activity_outputer_id.setVisibility(View.VISIBLE);
+                }
             }
-
-            if (i == 2) {
-                nav_TV(3, "nav_tv_", i).setOnTouchListener(new View.OnTouchListener() {
-
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-
-                        switch (event.getActionMasked()) {
-
-                            case MotionEvent.ACTION_DOWN:
-                            case MotionEvent.ACTION_POINTER_DOWN: {
-                                //change color or background  ( new )
-                                break;
-                            }
-
-                            case MotionEvent.ACTION_UP:
-                            case MotionEvent.ACTION_POINTER_UP: {
-
-                                //change color to default
-
-                                //do the action
-                                Intent i = new Intent(Activity_MainNewsPage.this, Activity_Profile.class);
-                                startActivity(i);
-
-                                break;
-                            }
-                            case MotionEvent.ACTION_MOVE: {
-
-                                //finger moved : deactivate the whole action
-
-                                break;
-                            }
-                        }
-
-                        return true;
-                    }
-                });
-
+        });
+        news_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!activity_outputer_id.isShown()){
+                    activity_outputer_id.setVisibility(View.VISIBLE);
+                }
             }
+        });
 
-        }
+        iv_img_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(activity_outputer_id.isShown()){
+                    activity_outputer_id.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
     }
         @Override
         public void onBackPressed(){

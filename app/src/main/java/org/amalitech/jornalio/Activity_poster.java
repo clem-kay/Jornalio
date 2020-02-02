@@ -3,6 +3,7 @@ package org.amalitech.jornalio;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -52,86 +53,63 @@ public class Activity_poster extends Activity {
             }
 
         }
-        for(int i=0;i<3;i++){
+        for(int i=0; i<3; i++) {
+            relative_rl(3, "nav_rl_", i).setOnTouchListener(new View.OnTouchListener() {
 
-            if (i==0){
-                nav_TV(3, "nav_tv_", i).setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
 
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
+                    for(int j=0; j<3; j++) {
 
-                        switch (event.getActionMasked()) {
+                        if(v.getId()==relative_rl(3, "nav_rl_", j).getId()) {
+                            switch (event.getActionMasked()){
 
-                            case MotionEvent.ACTION_DOWN:
-                            case MotionEvent.ACTION_POINTER_DOWN: {
-                                //change color or background  ( new )
+                                case MotionEvent.ACTION_DOWN:
+                                case MotionEvent.ACTION_POINTER_DOWN: {
+                                    //change color or background  ( new )
+                                    relative_rl(3, "nav_rl_", j).setBackgroundColor(Color.parseColor("#e8ffc4"));
+                                    break;
+                                }
+                                case MotionEvent.ACTION_UP:
+                                case MotionEvent.ACTION_POINTER_UP: {
 
-                                break;
-                            }
+                                    switch(j) {
+                                        //change color to default
+                                        case 0:
+                                            //Take us to the main news page
+                                            Intent activity_Main_intent = new Intent(Activity_poster.this, Activity_MainNewsPage.class );
+                                            startActivity(activity_Main_intent);
+                                            break;
+                                        case 1:
+                                            //do the action
 
-                            case MotionEvent.ACTION_UP:
-                            case MotionEvent.ACTION_POINTER_UP: {
+                                            break;
+                                        case 2:
+                                            //this should take us to "My Profile"
+                                            Intent activity_Profile_intent = new Intent(Activity_poster.this, Activity_Profile.class );
+                                            startActivity(activity_Profile_intent);
+                                            break;
+                                        default:
+                                            //DO NOTHING . . .
+                                            break;
 
-                                //change color to default
+                                    }
+                                    break;
+                                }
+                                case MotionEvent.ACTION_MOVE:{
 
-                                //do the action
-                                Intent activity_Post_intent = new Intent(Activity_poster.this, Activity_MainNewsPage.class);
-                                startActivity(activity_Post_intent);
-
-                                break;
-                            }
-                            case MotionEvent.ACTION_MOVE: {
-
-                                //finger moved : deactivate the whole action
-
-                                break;
-                            }
-                        }
-                        return true;
-                    }
-                });
-            }
-
-            if(i==2){
-
-                nav_TV(3, "nav_tv_", i).setOnTouchListener(new View.OnTouchListener() {
-
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-
-                        switch (event.getActionMasked()) {
-
-                            case MotionEvent.ACTION_DOWN:
-                            case MotionEvent.ACTION_POINTER_DOWN: {
-                                //change color or background  ( new )
-                                break;
-                            }
-
-                            case MotionEvent.ACTION_UP:
-                            case MotionEvent.ACTION_POINTER_UP: {
-
-                                //change color to default
-
-                                //do the action
-                                Intent activity_Post_intent = new Intent(Activity_poster.this, Activity_Profile.class);
-                                startActivity(activity_Post_intent);
-
-                                break;
-                            }
-                            case MotionEvent.ACTION_MOVE: {
-
-                                //finger moved : deactivate the whole action
-
-                                break;
+                                    //finger moved : deactivate the whole action
+                                    relative_rl(3, "nav_rl_", j).setBackgroundColor(Color.parseColor("#6FCEFA"));
+                                    break;
+                                }
                             }
                         }
-                        return true;
+
                     }
-                });
-
-            }
-        }
-
+                    return true;
+                }
+            });//END OF onTouch
+        }//END OF for(){...}
         bttn_new_post.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -241,6 +219,19 @@ public class Activity_poster extends Activity {
         textView_full_IDs[tv_i] = (TextView)findViewById(textView_tv_ID);
 
         return textView_full_IDs[tv_i];
+    }
+    public RelativeLayout relative_rl(int total_num_i, String prefix_str, int tv_i){
+
+        String[] relativeview_tv_ids = new String[total_num_i];
+
+        RelativeLayout[] relativeview_full_IDs = new RelativeLayout[total_num_i];
+
+        relativeview_tv_ids[tv_i] = prefix_str+Integer.toString(tv_i);
+
+        int relative_tv_ID = ctx.getResources().getIdentifier(relativeview_tv_ids[tv_i], "id", "org.amalitech.jornalio");
+        relativeview_full_IDs[tv_i] = (RelativeLayout)findViewById(relative_tv_ID);
+
+        return relativeview_full_IDs[tv_i];
     }
 
     @Override
